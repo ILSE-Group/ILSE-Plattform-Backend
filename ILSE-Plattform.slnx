@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Application/Application.csproj" />
+  <Project Path="Domain/Domain.csproj" />
+  <Project Path="ILSE-Plattform/Representation.csproj" />
+  <Project Path="Persistence/Persistence.csproj" />
+</Solution>
