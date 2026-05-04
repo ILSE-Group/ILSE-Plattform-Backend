@@ -1,4 +1,4 @@
-﻿namespace Domain.DomainObjects.Exercises.BaseExercise
+﻿namespace Domain.DomainObjects.Topics.Exercises.BaseExercise
 {
     public abstract class Exercise
     {

@@ -1,4 +1,6 @@
-﻿namespace Domain.DomainObjects.Topics.Exercises.ExerciseHelper
+﻿using Domain.Utility;
+
+namespace Domain.DomainObjects.Topics.Exercises.ExerciseHelper
 {
     public class Link
     {
@@ -8,6 +10,8 @@
 
         private Link(Guid id, string leftItem, string rightItem)
         {
+            Guard.AgainstEmptyGuid(id, nameof(id));
+
             Id = id;
             LeftItem = leftItem;
             RightItem = rightItem;
