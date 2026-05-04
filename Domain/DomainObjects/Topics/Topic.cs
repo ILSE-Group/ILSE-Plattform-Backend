@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain.DomainObjects.Sections
 {
-    internal class Section
+    public class Topic
     {
     }
 }

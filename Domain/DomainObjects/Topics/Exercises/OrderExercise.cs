@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.DomainObjects.Exercises
+namespace Domain.DomainObjects.Topics.Exercises
 {
-    internal class LinkingExercise
+    internal class OrderExercise
     {
     }
 }
