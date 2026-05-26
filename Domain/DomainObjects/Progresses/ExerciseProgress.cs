@@ -4,29 +4,37 @@ using System.Text;
 
 namespace Domain.DomainObjects.Progresses
 {
-    internal class ExerciseProgress
+    public class ExerciseProgress
     {
         public Guid Id { get; private set; }
         public Guid UserId { get; private set; }
         public Guid ExerciseId { get; private set; }
         public List<Guid> CompletedExercises { get; private set; }
 
-        private ExerciseProgress()
+        private ExerciseProgress(Guid id, Guid userId, Guid exerciseId, List<Guid> completedExercises)
         {
-            CompletedExercises = [];
-        }
-
-        public ExerciseProgress(Guid userId, Guid exerciseId)
-        {
-            Id = Guid.NewGuid();
+            Id = id;
             UserId = userId;
             ExerciseId = exerciseId;
-            CompletedExercises = [];
+            CompletedExercises = completedExercises ?? [];
+        }
+
+        public static ExerciseProgress CreateNew(Guid userId, Guid exerciseId)
+        {
+            return new ExerciseProgress(Guid.NewGuid(), userId, exerciseId, []);
+        }
+
+        public static ExerciseProgress Reconstruct(Guid id, Guid userId, Guid exerciseId, List<Guid> completedExercises)
+        {
+            return new ExerciseProgress(id, userId, exerciseId, completedExercises ?? []);
         }
 
         public void MarkAsCompleted()
         {
-            CompletedExercises.Add(ExerciseId);
+            if (!CompletedExercises.Contains(ExerciseId))
+            {
+                CompletedExercises.Add(ExerciseId);
+            }
         }
     }
 }

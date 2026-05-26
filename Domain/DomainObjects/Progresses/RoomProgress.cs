@@ -7,22 +7,30 @@
         public Guid RoomId { get; private set; }
         public List<Guid> CompletedRooms { get; private set; }
 
-        private RoomProgress()
+        private RoomProgress(Guid id, Guid userId, Guid roomId, List<Guid> completedRooms)
         {
-            CompletedRooms = [];
-        }
-
-        public RoomProgress(Guid userId, Guid roomId)
-        {
-            Id = Guid.NewGuid();
+            Id = id;
             UserId = userId;
             RoomId = roomId;
-            CompletedRooms = [];
+            CompletedRooms = completedRooms ?? [];
+        }
+
+        public static RoomProgress CreateNew(Guid userId, Guid roomId)
+        {
+            return new RoomProgress(Guid.NewGuid(), userId, roomId, []);
+        }
+
+        public static RoomProgress Reconstruct(Guid id, Guid userId, Guid roomId, List<Guid> completedRooms)
+        {
+            return new RoomProgress(id, userId, roomId, completedRooms ?? []);
         }
 
         public void MarkAsCompleted()
         {
-            CompletedRooms.Add(RoomId);
+            if (!CompletedRooms.Contains(RoomId))
+            {
+                CompletedRooms.Add(RoomId);
+            }
         }
     }
 }
