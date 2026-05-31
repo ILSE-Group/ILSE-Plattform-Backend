@@ -2,10 +2,10 @@
 {
     public abstract class Exercise
     {
-        public Guid Id { get; }
-        string Title { get; }
-        string Description { get; }
-        int ExperiencePoints { get; }
+        public Guid Id { get; private set; }
+        public string Title { get; private set; }
+        public string Description { get; private set; }
+        public int ExperiencePoints { get; private set; }
 
         protected Exercise(Guid id, string title, string description, int experiencePoints)
         {

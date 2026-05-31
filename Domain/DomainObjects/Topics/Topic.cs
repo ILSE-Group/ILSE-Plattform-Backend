@@ -1,22 +1,30 @@
-﻿namespace Domain.DomainObjects.Topics
+﻿using Domain.DomainObjects.Topics.Exercises.ExerciseHelper;
+
+namespace Domain.DomainObjects.Topics
 {
     public class Topic
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }
-        public List<Guid> Rooms{ get; private set; }
 
-        private Topic()
+        private readonly List<Room> _rooms;
+        public IReadOnlyList<Room> Rooms => _rooms;
+
+        private Topic(Guid id, string name, List<Room> rooms)
         {
-            Name = string.Empty;
-            Rooms = [];
+            Id = id;
+            Name = name;
+            _rooms = rooms;
         }
 
-        public Topic(string name)
+        public static Topic CreateNew(string name)
         {
-            Id = Guid.NewGuid();
-            Name = name;
-            Rooms = [];
+            return new Topic(Guid.NewGuid(), name, []);
+        }
+
+        public static Topic Reconstruct(Guid id, string name, List<Room> rooms)
+        {
+            return new Topic(id, name, rooms);
         }
     }
 }

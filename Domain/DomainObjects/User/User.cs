@@ -11,19 +11,24 @@ namespace Domain.DomainObjects.User
         public Guid Id { get; private set; }
         public string Username { get; private set; }
         public UserRole Role { get; private set; }
-        public UserLevel UserLevel { get; private set; }
-        private User()
+        public int ExperiencePoints { get; private set; }
+
+        private User(Guid id, string username, UserRole role, int experiencePoints)
         {
-            Username = string.Empty;
-            UserLevel = null!;
+            Id = id;
+            Username = username;
+            Role = role;
+            ExperiencePoints = experiencePoints;
         }
 
-        public User(string username, UserRole userRole)
+        public static User CreateNew(string username, UserRole role)
         {
-            Id = Guid.NewGuid();
-            Username = username;
-            Role = userRole;
-            UserLevel = new UserLevel(Id);
+            return new User(Guid.NewGuid(), username, role, 0);
+        }
+
+        public static User Reconstruct(Guid id, string username, UserRole role, int experiencePoints)
+        {
+            return new User(id, username, role, experiencePoints);
         }
     }
 }

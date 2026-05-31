@@ -13,5 +13,12 @@ namespace Domain.Factories
 
         private static readonly Random Random = new();
         public Username CreateRandomUsername => new($"{Adjectives[Random.Next(Adjectives.Length)]}{Animals[Random.Next(Animals.Length)]}");
-    }
+
+        public static string GenerateRandomUsername()
+        {
+            var random = new Random();
+            var adjective = Adjectives[random.Next(Adjectives.Length)];
+            var animal = Animals[random.Next(Animals.Length)];
+            return $"{adjective} {animal}";
+        }
 }

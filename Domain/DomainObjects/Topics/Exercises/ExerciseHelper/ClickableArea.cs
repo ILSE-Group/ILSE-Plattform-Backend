@@ -2,11 +2,11 @@
 {
     public class ClickableArea
     {
-        public Guid Id { get; }
-        public int X { get; }
-        public int Y { get; }
-        public int Width { get; }
-        public int Height { get; }
+        public Guid Id { get; private set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
 
         private ClickableArea(Guid id, int x, int y, int width, int height)
         {
