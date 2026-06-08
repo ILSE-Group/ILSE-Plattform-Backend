@@ -1,4 +1,5 @@
 ﻿using BogenElDorado.Persistence.Identity;
+using Domain.DomainObjects;
 using Domain.DomainObjects.Topics;
 using Domain.DomainObjects.Topics.Exercises.BaseExercise;
 using Domain.DomainObjects.User;
@@ -13,10 +14,10 @@ namespace Persistence
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<User> DomainUsers { get; set; }
-
         public DbSet<Topic> UserReports { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<OneTimePassword> OneTimePasswords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
