@@ -9,8 +9,8 @@ namespace Domain.DomainObjects.Topics.Exercises
         private readonly List<MCOption> _options;
         public IReadOnlyList<MCOption> Options => _options;
 
-        private readonly List<Guid> _correctOptionIds;
-        public IReadOnlyList<Guid> CorrectOptionIds => _correctOptionIds;
+        private readonly List<MCOption> _correctOptionIds;
+        public IReadOnlyList<MCOption> CorrectOptionIds => _correctOptionIds;
 
         private MultipleChoiceMultiAnswerExercise(
             Guid id,
@@ -18,7 +18,7 @@ namespace Domain.DomainObjects.Topics.Exercises
             string description,
             int experiencePoints,
             List<MCOption> options,
-            List<Guid> correctOptionIds)
+            List<MCOption> correctOptionIds)
             : base(id, title, description, experiencePoints)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
@@ -30,7 +30,7 @@ namespace Domain.DomainObjects.Topics.Exercises
             string description,
             int experiencePoints,
             List<MCOption> options,
-            List<Guid> correctOptionIds)
+            List<MCOption> correctOptionIds)
         {
             return new MultipleChoiceMultiAnswerExercise(
                 Guid.NewGuid(),
@@ -48,7 +48,7 @@ namespace Domain.DomainObjects.Topics.Exercises
             string description,
             int experiencePoints,
             List<MCOption> options,
-            List<Guid> correctOptionIds)
+            List<MCOption> correctOptionIds)
         {
             return new MultipleChoiceMultiAnswerExercise(
                 id,
