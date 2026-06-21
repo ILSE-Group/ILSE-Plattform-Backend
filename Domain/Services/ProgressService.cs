@@ -1,11 +1,11 @@
 namespace Domain.Services
 {
-    public class RoomProgressService
+    public class ProgressService
     {
         // Returns true if all required IDs appear in the completed list.
         // <param name="required">All exercise/room IDs that must be completed.</param>
         // <param name="completed">The IDs the user has already completed.</param>
-        public bool IsRoomCompleted(IEnumerable<Guid> required, IEnumerable<Guid> completed)
+        public bool IsCompleted(IEnumerable<Guid> required, IEnumerable<Guid> completed)
         {
             var completedSet = completed.ToHashSet();
             return required.All(id => completedSet.Contains(id));
