@@ -27,5 +27,12 @@
             return new ClickableArea(id, x, y, width, height);
         }
 
+        public override bool Equals(object? obj)
+        {
+            if (obj is not ClickableArea other) return false;
+            return X == other.X && Y == other.Y && Width == other.Width && Height == other.Height;
+        }
+
+        public override int GetHashCode() => HashCode.Combine(X, Y, Width, Height);
     }
 }

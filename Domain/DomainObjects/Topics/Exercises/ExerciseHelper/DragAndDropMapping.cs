@@ -22,5 +22,13 @@
         {
             return new DragAndDropMapping(id, itemId, dropZoneId);
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not DragAndDropMapping other) return false;
+            return ItemId == other.ItemId && DropZoneId == other.DropZoneId;
+        }
+
+        public override int GetHashCode() => HashCode.Combine(ItemId, DropZoneId);
     }
 }

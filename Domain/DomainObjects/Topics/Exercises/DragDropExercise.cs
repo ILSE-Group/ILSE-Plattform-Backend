@@ -3,7 +3,7 @@ using Domain.DomainObjects.Topics.Exercises.ExerciseHelper;
 
 namespace Domain.DomainObjects.Topics.Exercises
 {
-    public class DragAndDropExercise : Exercise
+    public class DragAndDropExercise : Exercise<List<DragAndDropMapping>>
     {
         private readonly List<DraggableItem> _items;
         public IReadOnlyList<DraggableItem> Items => _items;
@@ -62,9 +62,11 @@ namespace Domain.DomainObjects.Topics.Exercises
             );
         }
 
-        public override Exercise ValidateAnswer(object answer)
+        public override bool ValidateAnswer(List<DragAndDropMapping> answer)
         {
-            throw new NotImplementedException();
+            if (answer.Count != _correctMappings.Count) return false;
+
+            return answer.All(a => _correctMappings.Any(c => c.Equals(a)));
         }
     }
 }

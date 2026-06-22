@@ -1,4 +1,6 @@
-﻿namespace Domain.DomainObjects.Topics.Exercises.BaseExercise
+﻿using Domain.DomainObjects.Topics.Exercises.BaseExercise;
+
+namespace Domain.DomainObjects.Topics.Exercises.BaseExercise
 {
     public abstract class Exercise
     {
@@ -14,7 +16,13 @@
             Description = description;
             ExperiencePoints = experiencePoints;
         }
-
-        public abstract Exercise ValidateAnswer(object answer);
     }
+}
+
+public abstract class Exercise<TAnswer> : Exercise
+{
+    protected Exercise(Guid id, string title, string description, int experiencePoints)
+        : base(id, title, description, experiencePoints) { }
+
+    public abstract bool ValidateAnswer(TAnswer answer);
 }

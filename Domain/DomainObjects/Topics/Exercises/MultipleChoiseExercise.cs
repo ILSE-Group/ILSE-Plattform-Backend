@@ -4,7 +4,7 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace Domain.DomainObjects.Topics.Exercises
 {
-    public class MultipleChoiceMultiAnswerExercise : Exercise
+    public class MultipleChoiceMultiAnswerExercise : Exercise<List<MCOption>>
     {
         private readonly List<MCOption> _options;
         public IReadOnlyList<MCOption> Options => _options;
@@ -60,9 +60,10 @@ namespace Domain.DomainObjects.Topics.Exercises
             );
         }
 
-        public override Exercise ValidateAnswer(object answer)
+        public override bool ValidateAnswer(List<MCOption> answer)
         {
-            throw new NotImplementedException();
+            if (answer.Count != _correctOptionIds.Count) return false;
+            return answer.All(a => _correctOptionIds.Any(c => c.Equals(a)));
         }
     }
 }

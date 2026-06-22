@@ -26,5 +26,13 @@ namespace Domain.DomainObjects.Topics.Exercises.ExerciseHelper
         {
             return new Link(id, leftItem, rightItem);
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Link other) return false;
+            return LeftItem == other.LeftItem && RightItem == other.RightItem;
+        }
+
+        public override int GetHashCode() => HashCode.Combine(LeftItem, RightItem);
     }
 }

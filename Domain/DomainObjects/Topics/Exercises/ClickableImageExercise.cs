@@ -3,9 +3,10 @@ using Domain.DomainObjects.Topics.Exercises.ExerciseHelper;
 
 namespace Domain.DomainObjects.Topics.Exercises
 {
-    public class ClickableImageExercise : Exercise
+    public class ClickableImageExercise : Exercise<ClickableArea>
     {
         public string ImageUrl { get; private set; }
+        public ClickableArea CorrectArea { get; private set; }
 
         private readonly List<ClickableArea> _clickableAreas;
         public IReadOnlyList<ClickableArea> ClickableAreas => _clickableAreas;
@@ -44,9 +45,9 @@ namespace Domain.DomainObjects.Topics.Exercises
             return new ClickableImageExercise(id, title, description, experiencePoints, imageUrl, clickableAreas);
         }
 
-        public override Exercise ValidateAnswer(object answer)
+        public override bool ValidateAnswer(ClickableArea answer)
         {
-            throw new NotImplementedException();
+            return CorrectArea.Equals(answer);
         }
 
     }

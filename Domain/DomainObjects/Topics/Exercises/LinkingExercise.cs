@@ -3,7 +3,7 @@ using Domain.DomainObjects.Topics.Exercises.ExerciseHelper;
 
 namespace Domain.DomainObjects.Topics.Exercises
 {
-    public class LinkingExercise : Exercise
+    public class LinkingExercise : Exercise<List<Link>>
     {
 
         private readonly List<Link> _leftItems;
@@ -33,9 +33,10 @@ namespace Domain.DomainObjects.Topics.Exercises
             return new LinkingExercise(id, title, description, experiencePoints, leftItems, rightItems, correctLinks);
         }
 
-        public override Exercise ValidateAnswer(object answer)
+        public override bool ValidateAnswer(List<Link> answer)
         {
-            throw new NotImplementedException();
+            if (answer.Count != _correctLinks.Count) return false;
+            return answer.All(a => _correctLinks.Any(c => c.Equals(a)));
         }
     }
 }
