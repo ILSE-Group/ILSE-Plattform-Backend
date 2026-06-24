@@ -6,6 +6,6 @@
         Task DeleteAsync(Guid id);
         Task<T> UpdateAsync(T obj);
         Task<T> GetByIdAsync(Guid id);
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<List<T>> GetAllAsync();
     }
 }
