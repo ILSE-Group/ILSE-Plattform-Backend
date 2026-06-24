@@ -1,11 +1,11 @@
-﻿using BogenElDorado.Persistence.Identity;
-using Domain.DomainObjects;
+﻿using Domain.DomainObjects;
+using Domain.DomainObjects.Progresses;
 using Domain.DomainObjects.Topics;
 using Domain.DomainObjects.Topics.Exercises.BaseExercise;
-using Domain.DomainObjects.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Identity;
 
 namespace Persistence
 {
@@ -13,17 +13,20 @@ namespace Persistence
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<User> DomainUsers { get; set; }
-        public DbSet<Topic> UserReports { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Exercise> Exercises { get; set; }
-        public DbSet<OneTimePassword> OneTimePasswords { get; set; }
+        public DbSet<Topic>            Topics             { get; set; }
+        public DbSet<Room>             Rooms              { get; set; }
+        public DbSet<Exercise>         Exercises          { get; set; }
+        public DbSet<Level>            Levels             { get; set; }
+        public DbSet<OneTimePassword>  OneTimePasswords   { get; set; }
+        public DbSet<ExerciseProgress> ExerciseProgresses { get; set; }
+        public DbSet<RoomProgress>     RoomProgresses     { get; set; }
+        public DbSet<UserProgress>     UserProgresses     { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Loads all configuration classes from the assembly and applies them
+            // Loads all IEntityTypeConfiguration<T> classes from this assembly
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(AppDbContext).Assembly);
         }

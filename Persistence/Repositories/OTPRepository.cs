@@ -57,10 +57,5 @@ namespace Persistence.Repositories
         {
             throw new NotImplementedException();
         }
-
-        Task<OneTimePassword> IBaseRepository<OneTimePassword>.GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,13 +1,14 @@
 ﻿using Domain.DomainObjects.User;
-using Domain.DomainObjects.User.UserEnums;
 using Domain.IRepositories.IBaseRepository;
 
 namespace Domain.IRepositories.IUserRepositories
 {
     public interface IUserRepository : IBaseRepository<User>
     {
-        Task<User> GetByUsernameAsync(string username);
-        Task<User> GetByUserLevelIdAsync(Guid userLevelId);
-        Task<IEnumerable<User>> GetUsersByRoleAsync(UserRole role);
+        Task<User?> GetByUsernameAsync(string username);
+        Task<User?> GetByEmailAsync(string email);
+        Task<List<User>> GetUsersByRoleAsync(string role);
+        Task<int> GetExperiencePointsAsync(Guid userId);
+        Task UpdateExperiencePointsAsync(Guid userId, int newTotal);
     }
 }

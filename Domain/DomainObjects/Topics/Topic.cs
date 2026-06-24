@@ -26,5 +26,16 @@ namespace Domain.DomainObjects.Topics
         {
             return new Topic(id, name, rooms);
         }
+
+        public void AddRoom(Room room)
+        {
+            if (!_rooms.Contains(room))
+                _rooms.Add(room);
+        }
+
+        public void RemoveRoom(Room room)
+        {
+            _rooms.Remove(room);
+        }
     }
 }
