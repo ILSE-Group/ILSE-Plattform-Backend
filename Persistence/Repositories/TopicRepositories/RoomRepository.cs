@@ -1,43 +1,16 @@
 using Domain.DomainObjects.Topics;
 using Domain.IRepositories.IRoomRepositories;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Repositories.BaseRepository;
 
-namespace Persistence.Repositories
+namespace Persistence.Repositories.TopicRepositories
 {
-    public class RoomRepository(AppDbContext context) : IRoomRepository
+    public class RoomRepository : BaseRepository<Room>, IRoomRepository
     {
-        private readonly AppDbContext _context = context;
-
-        public async Task<Room> AddAsync(Room room)
+        public RoomRepository(AppDbContext context) : base(context)
         {
-            await _context.Rooms.AddAsync(room);
-            await _context.SaveChangesAsync();
-            return room;
+            // Constructor calls base class constructor -> no further initialization needed here
         }
-
-        public async Task DeleteAsync(Guid id)
-        {
-            var room = await GetByIdAsync(id);
-            if (room is not null)
-            {
-                _context.Rooms.Remove(room);
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<Room> UpdateAsync(Room room)
-        {
-            _context.Rooms.Update(room);
-            await _context.SaveChangesAsync();
-            return room;
-        }
-
-        public async Task<Room?> GetByIdAsync(Guid id)
-            => await _context.Rooms
-                .FirstOrDefaultAsync(r => r.Id == id);
-
-        public async Task<IEnumerable<Room>> GetAllAsync()
-            => await _context.Rooms.ToListAsync();
 
         public async Task<Room?> GetByNameAsync(string name)
             => await _context.Rooms

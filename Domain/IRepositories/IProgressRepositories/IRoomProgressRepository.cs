@@ -1,7 +1,7 @@
 using Domain.DomainObjects.Progresses;
 using Domain.IRepositories.IBaseRepository;
 
-namespace Domain.IRepositories.IRoomProgressRepositories
+namespace Domain.IRepositories.IProgressRepositories
 {
     public interface IRoomProgressRepository : IBaseRepository<RoomProgress>
     {

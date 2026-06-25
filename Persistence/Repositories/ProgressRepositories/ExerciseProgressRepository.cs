@@ -1,12 +1,16 @@
 using Domain.DomainObjects.Progresses;
-using Domain.IRepositories.IExerciseProgressRepositories;
+using Domain.IRepositories.IProgressRepositories;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Repositories.BaseRepository;
 
-namespace Persistence.Repositories
+namespace Persistence.Repositories.ProgressRepository
 {
-    public class ExerciseProgressRepository(AppDbContext context) : IExerciseProgressRepository
+    public class ExerciseProgressRepository : BaseRepository<ExerciseProgress>, IExerciseProgressRepository
     {
-        private readonly AppDbContext _context = context;
+        public ExerciseProgressRepository(AppDbContext context) : base(context)
+        {
+            // Constructor calls base class constructor -> no further initialization needed here
+        }
 
         public async Task<ExerciseProgress> AddAsync(ExerciseProgress progress)
         {
