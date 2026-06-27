@@ -1,46 +1,16 @@
 using Domain.DomainObjects.Topics;
 using Domain.IRepositories.ITopicRepositories;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Repositories.BaseRepository;
 
-namespace Persistence.Repositories
+namespace Persistence.Repositories.TopicRepositories
 {
-    public class TopicRepository(AppDbContext context) : ITopicRepository
+    public class TopicRepository : BaseRepository<Topic>, ITopicRepository
     {
-        private readonly AppDbContext _context = context;
-
-        public async Task<Topic> AddAsync(Topic topic)
+        public TopicRepository(AppDbContext context) : base(context)
         {
-            await _context.Topics.AddAsync(topic);
-            await _context.SaveChangesAsync();
-            return topic;
+            // Constructor calls base class constructor -> no further initialization needed here
         }
-
-        public async Task DeleteAsync(Guid id)
-        {
-            var topic = await GetByIdAsync(id);
-            if (topic is not null)
-            {
-                _context.Topics.Remove(topic);
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<Topic> UpdateAsync(Topic topic)
-        {
-            _context.Topics.Update(topic);
-            await _context.SaveChangesAsync();
-            return topic;
-        }
-
-        public async Task<Topic?> GetByIdAsync(Guid id)
-            => await _context.Topics
-                .Include(t => t.Rooms)
-                .FirstOrDefaultAsync(t => t.Id == id);
-
-        public async Task<IEnumerable<Topic>> GetAllAsync()
-            => await _context.Topics
-                .Include(t => t.Rooms)
-                .ToListAsync();
 
         public async Task<Topic?> GetByNameAsync(string name)
             => await _context.Topics

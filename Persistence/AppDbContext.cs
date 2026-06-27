@@ -2,6 +2,7 @@
 using Domain.DomainObjects.Progresses;
 using Domain.DomainObjects.Topics;
 using Domain.DomainObjects.Topics.Exercises.BaseExercise;
+using Domain.DomainObjects.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace Persistence
         public DbSet<ExerciseProgress> ExerciseProgresses { get; set; }
         public DbSet<RoomProgress>     RoomProgresses     { get; set; }
         public DbSet<UserProgress>     UserProgresses     { get; set; }
+        public DbSet<User>             Users              { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

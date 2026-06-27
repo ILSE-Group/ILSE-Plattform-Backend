@@ -1,5 +1,5 @@
 ﻿using Application.DTOs;
-using Application.Services; 
+using Application.IServices.ITopicServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ILSE_Plattform.Controllers

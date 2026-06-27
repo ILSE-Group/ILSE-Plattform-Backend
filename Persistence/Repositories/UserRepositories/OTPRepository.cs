@@ -3,7 +3,7 @@ using Domain.IRepositories.IBaseRepository;
 using Domain.IRepositories.IOTPRepositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Persistence.Repositories
+namespace Persistence.Repositories.UserRepository.UserRepository
 {
     public class OTPRepository(AppDbContext context) : IOTPRepository
     {

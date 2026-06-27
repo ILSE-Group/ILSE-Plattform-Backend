@@ -1,12 +1,16 @@
 using Domain.DomainObjects.Progresses;
 using Domain.IRepositories.ILevelRepositories;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Repositories.BaseRepository;
 
-namespace Persistence.Repositories
+namespace Persistence.Repositories.ProgressRepository
 {
-    public class LevelRepository(AppDbContext context) : ILevelRepository
+    public class LevelRepository : BaseRepository<Level>, ILevelRepository
     {
-        private readonly AppDbContext _context = context;
+        public LevelRepository(AppDbContext context) : base(context)
+        {
+            // Constructor calls base class constructor -> no further initialization needed here
+        }
 
         public async Task<Level> AddAsync(Level level)
         {

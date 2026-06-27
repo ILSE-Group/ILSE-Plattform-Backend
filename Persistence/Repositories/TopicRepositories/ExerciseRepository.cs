@@ -1,12 +1,16 @@
 using Domain.DomainObjects.Topics.Exercises.BaseExercise;
-using Domain.IRepositories.IExerciseRepositories;
+using Domain.IRepositories.ITopicRepositories;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Repositories.BaseRepository;
 
-namespace Persistence.Repositories
+namespace Persistence.Repositories.TopicRepositories
 {
-    public class ExerciseRepository(AppDbContext context) : IExerciseRepository
+    public class ExerciseRepository : BaseRepository<Exercise>, IExerciseRepository
     {
-        private readonly AppDbContext _context = context;
+        public ExerciseRepository(AppDbContext context) : base(context)
+        {
+            // Constructor calls base class constructor -> no further initialization needed here
+        }
 
         public async Task<Exercise> AddAsync(Exercise exercise)
         {
