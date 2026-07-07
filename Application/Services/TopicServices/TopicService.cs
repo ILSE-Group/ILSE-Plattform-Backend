@@ -1,4 +1,5 @@
 ﻿using Application.IServices.ITopicServices;
+using Application.DTOs;
 using Domain.DomainObjects.Topics;
 using Domain.IRepositories.ITopicRepositories;
 
@@ -21,6 +22,13 @@ namespace Application.Services.TopicServices
         public async Task<Topic?> GetByIdAsync(Guid id)
         {
             return await _topicRepository.GetByIdAsync(id);
+        }
+
+        public async Task<Topic> CreateAsync(TopicRequest request)
+        {
+            var topic = Topic.CreateNew(request.Name);
+            await _topicRepository.AddAsync(topic);
+            return topic;
         }
     }
 }

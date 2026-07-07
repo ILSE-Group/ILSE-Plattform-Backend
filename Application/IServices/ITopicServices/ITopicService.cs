@@ -1,4 +1,5 @@
-﻿using Domain.DomainObjects.Topics;
+﻿using Application.DTOs;
+using Domain.DomainObjects.Topics;
 
 namespace Application.IServices.ITopicServices
 {
@@ -6,5 +7,6 @@ namespace Application.IServices.ITopicServices
     {
         Task<List<Topic>> GetAllAsync();
         Task<Topic?> GetByIdAsync(Guid id);
+        Task<Topic> CreateAsync(TopicRequest request);
     }
 }

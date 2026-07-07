@@ -1,103 +1,56 @@
-using Persistence.Identity;
-using Domain.IRepositories.IUserRepositories;
-using Microsoft.EntityFrameworkCore;
-using Persistence.Repositories.BaseRepository;
 using Domain.DomainObjects.User;
+using Domain.DomainObjects.User.UserEnums;
+using Domain.IRepositories.IUserRepositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Persistence.Identity;
+using Persistence.Repositories.BaseRepository;
 
 namespace Persistence.Repositories.UserRepositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public UserRepository(AppDbContext context) : base(context)
-        {
-            // Constructor calls base class constructor -> no further initialization needed here
-        }
+        private readonly UserManager<AppUser> _userManager;
 
-        private async Task<User?> MapAsync(AppUser? user)
+        public UserRepository(AppDbContext context, UserManager<AppUser> userManager)
+            : base(context)
         {
-            if (user is null) return null;
-
-            var roles = await _context.Users.GetRolesAsync(user);
-            return new User(
-                user.Id,
-                user.UserName ?? string.Empty,
-                user.Email    ?? string.Empty,
-                user.ExperiencePoints,
-                roles.ToList().AsReadOnly()
-            );
-        }
-
-        public async Task<User?> GetByIdAsync(Guid id)
-        {
-            var user = await _context.Users.FindByIdAsync(id.ToString());
-            return await MapAsync(user);
+            _userManager = userManager;
         }
 
         public async Task<User?> GetByUsernameAsync(string username)
-        {
-            var user = await _context.Users.FindByNameAsync(username);
-            return await MapAsync(user);
-        }
+            => await _dbSet.FirstOrDefaultAsync(u => u.Username == username);
 
         public async Task<User?> GetByEmailAsync(string email)
         {
-            var user = await _context.Users.FindByEmailAsync(email);
-            return await MapAsync(user);
+            // Email kennt nur Identity, also erst AppUser suchen, dann über Id den Domain-User laden
+            var appUser = await _userManager.FindByEmailAsync(email);
+            if (appUser is null) return null;
+
+            return await _dbSet.FirstOrDefaultAsync(u => u.Id == appUser.Id);
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<List<User>> GetUsersByRoleAsync(string role)
         {
-            var users = await _context.Users.Users.ToListAsync();
-            var dtos  = new List<User>();
-
-            foreach (var user in users)
-            {
-                var dto = await MapAsync(user);
-                if (dto is not null) dtos.Add(dto);
-            }
-
-            return dtos;
-        }
-
-        public async Task<IEnumerable<User>> GetUsersByRoleAsync(string role)
-        {
-            var users = await _context.Users.GetUsersInRoleAsync(role);
-            var dtos  = new List<User>();
-
-            foreach (var user in users)
-            {
-                var dto = await MapAsync(user);
-                if (dto is not null) dtos.Add(dto);
-            }
-
-            return dtos;
+            var userRole = Enum.Parse<UserRole>(role, ignoreCase: true);
+            return await _dbSet.Where(u => u.Role == userRole).ToListAsync();
         }
 
         public async Task<int> GetExperiencePointsAsync(Guid userId)
         {
-            var user = await _context.Users.FindByIdAsync(userId.ToString())
+            var user = await _dbSet.FirstOrDefaultAsync(u => u.Id == userId)
                 ?? throw new KeyNotFoundException($"User {userId} not found.");
             return user.ExperiencePoints;
         }
 
-        public async Task UpdateExperiencePointsAsync(Guid userId, int newTotal)
+        public async Task UpdateExperiencePointsAsync(Guid userId, int experiencePoints)
         {
-            var user = await _context.Users.FindByIdAsync(userId.ToString())
+            var user = await _dbSet.FirstOrDefaultAsync(u => u.Id == userId)
                 ?? throw new KeyNotFoundException($"User {userId} not found.");
 
-            user.ExperiencePoints = newTotal;
+            user.AddExperience(experiencePoints);
 
-            var result = await _context.Users.UpdateAsync(user);
-            if (!result.Succeeded)
-            {
-                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                throw new InvalidOperationException($"Failed to update XP for user {userId}: {errors}");
-            }
-        }
-
-        Task<List<User>> IUserRepository.GetUsersByRoleAsync(string role)
-        {
-            throw new NotImplementedException();
+            await _context.SaveChangesAsync();
         }
     }
 }

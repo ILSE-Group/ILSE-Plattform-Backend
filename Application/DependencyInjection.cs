@@ -1,4 +1,6 @@
-﻿using Application.IServices.ITopicServices;
+﻿using Application.IServices.IAuthServices;
+using Application.IServices.ITopicServices;
+using Application.Services.AuthServices;
 using Application.Services.TopicServices;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,9 @@ namespace Application
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IExerciseService, ExerciseService>();
 
+            services.AddScoped<IJwtTokenService, JwtTokenService>();
+            services.AddScoped<IOtpService, OtpService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }

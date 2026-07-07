@@ -28,6 +28,8 @@ namespace Persistence
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.UsePropertyAccessMode(PropertyAccessMode.PreferField);
+
             // Loads all IEntityTypeConfiguration<T> classes from this assembly
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(AppDbContext).Assembly);

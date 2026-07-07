@@ -12,23 +12,25 @@ namespace Domain.DomainObjects.Topics
         private readonly List<Exercise> _exercises;
         public IReadOnlyList<Exercise> Exercises => _exercises;
 
-        private Room(Guid id, string name, int unlockLevel, int completionExperiencePoints)
+        private Room() { }
+
+        private Room(Guid id, string name, int unlockLevel, int completionExperiencePoints, List<Exercise> exercises)
         {
             Id = id;
             Name = name;
             UnlockLevel = unlockLevel;
             CompletionExperiencePoints = completionExperiencePoints;
-            _exercises = [];
+            _exercises = exercises;
         }
 
         public static Room CreateNew(string name, int unlockLevel, int completionExperiencePoints)
         {
-            return new Room(Guid.NewGuid(), name, unlockLevel, completionExperiencePoints);
+            return new Room(Guid.NewGuid(), name, unlockLevel, completionExperiencePoints, []);
         }
 
-        public static Room Reconstruct(Guid id, string name, int unlockLevel, int completionExperiencePoints)
+        public static Room Reconstruct(Guid id, string name, int unlockLevel, int completionExperiencePoints, List<Exercise> exercises)
         {
-            return new Room(id, name, unlockLevel, completionExperiencePoints);
+            return new Room(id, name, unlockLevel, completionExperiencePoints, exercises);
         }
     }
 }

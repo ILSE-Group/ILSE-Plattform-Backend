@@ -1,5 +1,6 @@
 using System.Text;
-using Application.Services;
+using Application;
+using Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -41,14 +42,9 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 
-// Application Services
-builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-builder.Services.AddScoped<IOtpService, OtpService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-
-// TODO: Register your repository implementations here, e.g.:
-// builder.Services.AddScoped<IUserRepository, EfUserRepository>();
-// builder.Services.AddScoped<IOTPRepository, EfOTPRepository>();
+// Register your repository implementations here, e.g.:
+builder.Services.AddApplication();
+builder.Services.AddPersistence(builder.Configuration, builder.Environment);
 
 // Build
 var app = builder.Build();

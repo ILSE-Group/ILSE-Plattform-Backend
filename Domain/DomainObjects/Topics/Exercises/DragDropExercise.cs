@@ -14,6 +14,8 @@ namespace Domain.DomainObjects.Topics.Exercises
         private readonly List<DragAndDropMapping> _correctMappings;
         public IReadOnlyList<DragAndDropMapping> CorrectMappings => _correctMappings;
 
+        private DragAndDropExercise() : base() { }
+
         private DragAndDropExercise(
             Guid id,
             string title,

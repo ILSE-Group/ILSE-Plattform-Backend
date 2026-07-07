@@ -10,6 +10,8 @@ namespace Domain.DomainObjects.Topics.Exercises
         private readonly List<ClickableArea> _clickableAreas;
         public IReadOnlyList<ClickableArea> ClickableAreas => _clickableAreas;
 
+        private ClickableImageExercise() : base() { }
+
         private ClickableImageExercise(
             Guid id, 
             string title, 

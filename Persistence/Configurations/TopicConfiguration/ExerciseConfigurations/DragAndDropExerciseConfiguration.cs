@@ -10,8 +10,6 @@ namespace Persistence.Configurations.TopicConfiguration.ExerciseConfigurations
         {
             builder.ToTable("DragAndDropExercises");
 
-            builder.HasKey(e => e.Id);
-
             builder.HasMany(e => e.Items)
                    .WithOne()
                    .HasForeignKey("ExerciseId")
