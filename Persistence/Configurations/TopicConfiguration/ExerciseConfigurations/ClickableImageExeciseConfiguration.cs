@@ -9,7 +9,6 @@ namespace Persistence.Configurations.TopicConfiguration.ExerciseConfigurations
         public void Configure(EntityTypeBuilder<ClickableImageExercise> builder)
         {
             builder.ToTable("ClickableImageExercises");
-            builder.HasKey(e => e.Id);
             builder.Property(e => e.ImageUrl).IsRequired();
             builder.HasMany(e => e.ClickableAreas)
                    .WithOne()

@@ -30,5 +30,9 @@ namespace Domain.DomainObjects.User
         {
             return new User(id, username, role, experiencePoints);
         }
+
+        public void AddExperience(int points) {
+            ExperiencePoints += points;
+        }
     }
 }

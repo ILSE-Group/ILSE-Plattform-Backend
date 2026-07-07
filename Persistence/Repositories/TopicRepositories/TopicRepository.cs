@@ -12,11 +12,6 @@ namespace Persistence.Repositories.TopicRepositories
             // Constructor calls base class constructor -> no further initialization needed here
         }
 
-        public async Task<Topic?> GetByNameAsync(string name)
-            => await _context.Topics
-                .Include(t => t.Rooms)
-                .FirstOrDefaultAsync(t => t.Name.ToLower() == name.ToLower());
-
         public async Task<IEnumerable<Topic>> GetTopicsByRoomIdAsync(Guid roomId)
             => await _context.Topics
                 .Include(t => t.Rooms)
@@ -57,6 +52,11 @@ namespace Persistence.Repositories.TopicRepositories
                 topic.RemoveRoom(room);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public Task<Topic> GetByNameAsync(string name)
+        {
+            throw new NotImplementedException();
         }
     }
 }

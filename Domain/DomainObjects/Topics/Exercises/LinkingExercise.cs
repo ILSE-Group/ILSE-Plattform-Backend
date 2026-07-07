@@ -5,7 +5,6 @@ namespace Domain.DomainObjects.Topics.Exercises
 {
     public class LinkingExercise : Exercise
     {
-
         private readonly List<Link> _leftItems;
         public IReadOnlyList<Link> LeftItems => _leftItems;
 
@@ -14,6 +13,8 @@ namespace Domain.DomainObjects.Topics.Exercises
 
         private readonly List<Link> _correctLinks;
         public IReadOnlyList<Link> CorrectLinks => _correctLinks;
+
+        private LinkingExercise() : base() { }
 
         private LinkingExercise(Guid id, string title, string description, int experiencePoints, List<Link> leftItems, List<Link> rightItems, List<Link> correctLinks) 
            : base(id, title, description, experiencePoints)

@@ -1,0 +1,15 @@
+services:
+  ilse-backend:
+    build:
+      context: .  # Pfad zu deinem Solution-Root
+      dockerfile: ILSE-Plattform/Dockerfile  # Pfad zum Dockerfile relativ zum context
+    container_name: ilse-backend
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Jwt__Secret=${JWT_SECRET}
+      - Jwt__Issuer=ilse-api
+      - Jwt__Audience=ilse-frontend
+      - ConnectionStrings__DefaultConnection=Host=test.annalytic.lab;Port=5432;Database=ilse;Username=${ILSE_DB_USER};Password=${ILSE_DB_PASSWORD}
+    ports:
+      - "8080:8080"
