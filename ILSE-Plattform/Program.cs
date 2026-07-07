@@ -46,6 +46,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration, builder.Environment);
 
+
 // Build
 var app = builder.Build();
 
