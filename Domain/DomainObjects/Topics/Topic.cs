@@ -10,6 +10,7 @@ namespace Domain.DomainObjects.Topics
         private readonly List<Room> _rooms;
         public IReadOnlyList<Room> Rooms => _rooms;
 
+        private Topic() { }
         private Topic(Guid id, string name, List<Room> rooms)
         {
             Id = id;

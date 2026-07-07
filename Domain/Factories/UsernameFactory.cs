@@ -1,6 +1,3 @@
-using System;
-using Domain.DomainObjects.User;
-
 namespace Domain.Factories
 {
     public class UsernameFactory
@@ -12,7 +9,8 @@ namespace Domain.Factories
         "Rabe", "Panda", "Koala", "Pinguin", "Delfin", "Gorilla", "Igel", "Hase", "Frosch", "Hirsch", "Elefant", "Affe", "Esel", "Elch", "Papagei"];
 
         private static readonly Random Random = new();
-        public Username CreateRandomUsername => new($"{Adjectives[Random.Next(Adjectives.Length)]}{Animals[Random.Next(Animals.Length)]}");
+
+        public string CreateRandomUsername => new($"{Adjectives[Random.Next(Adjectives.Length)]}{Animals[Random.Next(Animals.Length)]}");
 
         public static string GenerateRandomUsername()
         {
@@ -21,4 +19,5 @@ namespace Domain.Factories
             var animal = Animals[random.Next(Animals.Length)];
             return $"{adjective} {animal}";
         }
+    }
 }

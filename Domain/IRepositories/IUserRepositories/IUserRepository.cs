@@ -6,7 +6,6 @@ namespace Domain.IRepositories.IUserRepositories
     public interface IUserRepository : IBaseRepository<User>
     {
         Task<User?> GetByUsernameAsync(string username);
-        Task<User?> GetByEmailAsync(string email);
         Task<List<User>> GetUsersByRoleAsync(string role);
         Task<int> GetExperiencePointsAsync(Guid userId);
         Task UpdateExperiencePointsAsync(Guid userId, int newTotal);

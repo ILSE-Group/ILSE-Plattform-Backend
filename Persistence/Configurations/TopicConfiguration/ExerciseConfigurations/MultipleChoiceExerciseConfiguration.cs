@@ -10,8 +10,6 @@ namespace Persistence.Configurations.TopicConfiguration.ExerciseConfigurations
         {
             builder.ToTable("MultipleChoiceExercises");
 
-            builder.HasKey(e => e.Id);
-
             builder.HasMany(e => e.Options)
                    .WithOne()
                    .HasForeignKey("ExerciseId")

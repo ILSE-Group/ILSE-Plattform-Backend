@@ -15,6 +15,13 @@ namespace ILSE_Plattform.Controllers
             _topicService = topicService;
         }
 
+        [HttpPost]
+        public async Task<ActionResult<TopicResponse>> Create(TopicRequest request)
+        {
+            var topic = await _topicService.CreateAsync(request);
+            return CreatedAtAction(nameof(GetById), new { id = topic.Id }, topic);
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TopicResponse>>> GetAll()
         {

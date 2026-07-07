@@ -5,7 +5,7 @@ using Domain.DomainObjects.User;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Application.Services
+namespace Application.Services.AuthServices
 {
     public interface IJwtTokenService
     {

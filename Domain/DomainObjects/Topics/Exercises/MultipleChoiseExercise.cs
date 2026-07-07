@@ -12,6 +12,8 @@ namespace Domain.DomainObjects.Topics.Exercises
         private readonly List<MCOption> _correctOptionIds;
         public IReadOnlyList<MCOption> CorrectOptionIds => _correctOptionIds;
 
+        private MultipleChoiceMultiAnswerExercise() : base() { }
+
         private MultipleChoiceMultiAnswerExercise(
             Guid id,
             string title,

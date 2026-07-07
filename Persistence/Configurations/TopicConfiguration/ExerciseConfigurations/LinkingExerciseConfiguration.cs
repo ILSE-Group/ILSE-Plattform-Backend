@@ -9,14 +9,20 @@ namespace Persistence.Configurations.TopicConfiguration.ExerciseConfigurations
         public void Configure(EntityTypeBuilder<LinkingExercise> builder)
         {
             builder.ToTable("LinkingExercises");
-            builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.LeftItems).IsRequired();
-            builder.Property(e => e.RightItems).IsRequired();
+            builder.HasMany(e => e.LeftItems)
+                .WithOne()
+                .HasForeignKey("LinkingExerciseIdLeft")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(e => e.RightItems)
+                .WithOne()
+                .HasForeignKey("LinkingExerciseIdRight")
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(e => e.CorrectLinks)
                    .WithOne()
-                   .HasForeignKey("ExerciseId")
+                   .HasForeignKey("LinkingExerciseIdCorrect")
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

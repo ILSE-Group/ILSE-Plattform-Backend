@@ -16,13 +16,13 @@ namespace Persistence.Repositories.TopicRepositories
             => await _context.Rooms
                 .FirstOrDefaultAsync(r => r.Name.ToLower() == name.ToLower());
 
-        public async Task<IEnumerable<Room>> GetRoomsByMaxUnlockLevelAsync(int maxLevel)
+        public async Task<List<Room>> GetRoomsByMaxUnlockLevelAsync(int maxLevel)
             => await _context.Rooms
                 .Where(r => r.UnlockLevel <= maxLevel)
                 .OrderBy(r => r.UnlockLevel)
                 .ToListAsync();
 
-        public async Task<IEnumerable<Room>> GetRoomsByTopicIdAsync(Guid topicId)
+        public async Task<List<Room>> GetRoomsByTopicIdAsync(Guid topicId)
             => await _context.Topics
                 .Where(t => t.Id == topicId)
                 .SelectMany(t => t.Rooms)

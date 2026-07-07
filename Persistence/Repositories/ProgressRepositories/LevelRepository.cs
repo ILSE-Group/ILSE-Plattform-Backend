@@ -12,36 +12,6 @@ namespace Persistence.Repositories.ProgressRepository
             // Constructor calls base class constructor -> no further initialization needed here
         }
 
-        public async Task<Level> AddAsync(Level level)
-        {
-            await _context.Levels.AddAsync(level);
-            await _context.SaveChangesAsync();
-            return level;
-        }
-
-        public async Task DeleteAsync(Guid id)
-        {
-            var level = await GetByIdAsync(id);
-            if (level is not null)
-            {
-                _context.Levels.Remove(level);
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<Level> UpdateAsync(Level level)
-        {
-            _context.Levels.Update(level);
-            await _context.SaveChangesAsync();
-            return level;
-        }
-
-        public async Task<Level?> GetByIdAsync(Guid id)
-            => await _context.Levels.FirstOrDefaultAsync(l => l.Id == id);
-
-        public async Task<IEnumerable<Level>> GetAllAsync()
-            => await _context.Levels.ToListAsync();
-
         public async Task<Level?> GetByNameAsync(string name)
             => await _context.Levels
                 .FirstOrDefaultAsync(l => l.Name.ToLower() == name.ToLower());
