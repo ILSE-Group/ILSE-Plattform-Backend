@@ -1,48 +1,44 @@
 ﻿using Application.DTOs;
 using Application.IServices.IAuthServices;
 using Domain.DomainObjects;
-using Domain.DomainObjects.User;
 using Domain.Factories;
 using Domain.IRepositories.IOTPRepositories;
-using Domain.IRepositories.IUserRepositories;
+using Domain.IRepositories.IUserRepositories; 
+using Domain.Utility;
+using Microsoft.Extensions.Options;
 
 namespace Application.Services.AuthServices
 {
     public class OtpService : IOtpService
     {
-        private readonly IOTPRepository _otpRepo;
-        private readonly IUserRepository _userRepo;
+        private readonly IOTPRepository _otpRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly OtpSettings _settings;
 
-        public OtpService(IOTPRepository otpRepo, IUserRepository userRepo)
+        public OtpService(IOTPRepository otpRepository, IUserRepository userRepository, IOptions<OtpSettings> settings)
         {
-            _otpRepo = otpRepo;
-            _userRepo = userRepo;
+            _otpRepository = otpRepository;
+            _userRepository = userRepository;
+            _settings = settings.Value;
         }
 
-        public async Task<CreateOtpResponse> CreateOtpAsync(CreateOtpRequest request, Guid createdByUserId)
+        public async Task<CreateOtpResponse> CreateOtpAsync(CreateOtpRequest request, Guid callerId)
         {
-            // 1. Generate random username
-            string username = UsernameFactory.GenerateRandomUsername();
+            var user = await _userRepository.GetByIdAsync(request.UserId)
+                ?? throw new InvalidOperationException("User not found.");
 
-            // 2. Create the user in advance (role known, XP starts at 0)
-            var user = User.CreateNew(username, request.TargetRole);
-            await _userRepo.AddAsync(user);
+            var plainCode = OtpCodeGenerator.Generate(_settings.CodeLength);
+            var codeHash = OtpHasher.Hash(plainCode);
 
-            // 3. Generate a short, readable code (e.g. "A3K-92F")
-            string code = GenerateCode();
-            var otp = OneTimePassword.CreateNew(code, request.TargetRole, createdByUserId, user.Id);
-            await _otpRepo.AddAsync(otp);
+            var otp = OneTimePassword.CreateNew(codeHash, user.UserRole, callerId, user.Id, _settings.ExpiryDays);
+            await _otpRepository.AddAsync(otp);
 
-            return new CreateOtpResponse(code, username);
-        }
-
-        private static string GenerateCode()
-        {
-            const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no 0/O/1/I
-            var rng = new Random();
-            var part1 = new string(Enumerable.Range(0, 3).Select(_ => chars[rng.Next(chars.Length)]).ToArray());
-            var part2 = new string(Enumerable.Range(0, 3).Select(_ => chars[rng.Next(chars.Length)]).ToArray());
-            return $"{part1}-{part2}";
+            return new CreateOtpResponse
+            {
+                Code = plainCode,
+                Username = user.Username,
+                ExpiresAt = otp.ExpiresAt
+            };
         }
     }
 }
