@@ -7,15 +7,12 @@ namespace Persistence.Repositories.UserRepository.UserRepository
 {
     public class OTPRepository : BaseRepository<OneTimePassword>, IOTPRepository
     {
-        public OTPRepository(AppDbContext context) : base(context) 
-        {
-            // Constructor calls base class constructor -> no further initialization needed here
-        }
+        public OTPRepository(AppDbContext context) : base(context) { }
 
-        public async Task<OneTimePassword?> GetByCodeAsync(string code)
+        public async Task<OneTimePassword?> GetByCodeHashAsync(string codeHash)
         {
             return await _context.OneTimePasswords
-                .FirstOrDefaultAsync(o => o.Code == code.ToUpperInvariant());
+                .FirstOrDefaultAsync(o => o.CodeHash == codeHash);
         }
     }
 }
