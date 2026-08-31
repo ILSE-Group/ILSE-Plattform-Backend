@@ -17,6 +17,6 @@
             ExperiencePoints = experiencePoints;
         }
 
-        public abstract Exercise ValidateAnswer(object answer);
+        public abstract bool ValidateAnswer(object answer);
     }
 }

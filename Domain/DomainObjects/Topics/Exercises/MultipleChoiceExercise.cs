@@ -1,6 +1,5 @@
 ﻿using Domain.DomainObjects.Topics.Exercises.BaseExercise;
 using Domain.DomainObjects.Topics.Exercises.ExerciseHelper;
-using Microsoft.VisualBasic.FileIO;
 
 namespace Domain.DomainObjects.Topics.Exercises
 {
@@ -62,9 +61,18 @@ namespace Domain.DomainObjects.Topics.Exercises
             );
         }
 
-        public override Exercise ValidateAnswer(object answer)
+        public override bool ValidateAnswer(object answer)
         {
-            throw new NotImplementedException();
+            if (answer is not List<int> selectedIndices) throw new ArgumentException("Expected List<int> for multiple choice answer.", nameof(answer));
+ 
+            var correctIndices = _options
+                .Select((option, index) => new { option, index })
+                .Where(x => _correctOptionIds.Contains(x.option))
+                .Select(x => x.index)
+                .ToList();
+ 
+            return selectedIndices.Count == correctIndices.Count && selectedIndices.OrderBy(i => i).SequenceEqual(correctIndices.OrderBy(i => i));
+
         }
     }
 }
