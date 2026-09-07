@@ -64,9 +64,22 @@ namespace Domain.DomainObjects.Topics.Exercises
             );
         }
 
-        public override Exercise ValidateAnswer(object answer)
+        public override bool ValidateAnswer(object answer)
         {
-            throw new NotImplementedException();
+            if (answer is not List<(int ItemIndex, int ZoneIndex)> mappings) throw new ArgumentException("Expected List<(int ItemIndex, int ZoneIndex)> for drag and drop answer.", nameof(answer));
+ 
+            if (mappings.Count != _correctMappings.Count) return false;
+ 
+            return mappings.All(m =>
+            {
+                if (m.ItemIndex < 0 || m.ItemIndex >= _items.Count) return false;
+                if (m.ZoneIndex < 0 || m.ZoneIndex >= _zones.Count) return false;
+ 
+                var itemId = _items[m.ItemIndex].Id;
+                var zoneId = _zones[m.ZoneIndex].Id;
+ 
+                return _correctMappings.Any(cm => cm.ItemId == itemId && cm.DropZoneId == zoneId);
+            });
         }
     }
 }

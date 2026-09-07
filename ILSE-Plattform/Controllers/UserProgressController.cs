@@ -15,6 +15,13 @@ namespace ILSE_Plattform.Controllers
             _userProgressService = userProgressService;
         }
 
+        [HttpPost]
+        public async Task<ActionResult<UserProgressResponse>> Start(Guid userId)
+        {
+            var progress = await _userProgressService.StartAsync(userId);
+            return Ok(progress);
+        }
+
         [HttpGet]
         public async Task<ActionResult<UserProgressResponse>> GetByUserId(Guid userId)
         {

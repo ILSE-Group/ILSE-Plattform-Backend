@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Domain.DomainObjects.Progresses
+﻿namespace Domain.DomainObjects.Progresses
 {
     public class UserProgress
     {

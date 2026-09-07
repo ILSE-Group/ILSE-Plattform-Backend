@@ -34,9 +34,23 @@ namespace Domain.DomainObjects.Topics.Exercises
             return new LinkingExercise(id, title, description, experiencePoints, leftItems, rightItems, correctLinks);
         }
 
-        public override Exercise ValidateAnswer(object answer)
+        public override bool ValidateAnswer(object answer)
         {
-            throw new NotImplementedException();
+            if (answer is not List<(int LeftIndex, int RightIndex)> links) throw new ArgumentException("Expected List<(int LeftIndex, int RightIndex)> for linking answer.", nameof(answer));
+ 
+            if (links.Count != _correctLinks.Count) return false;
+ 
+            return links.All(l =>
+            {
+                if (l.LeftIndex < 0 || l.LeftIndex >= _leftItems.Count) return false;
+                if (l.RightIndex < 0 || l.RightIndex >= _rightItems.Count) return false;
+ 
+                var leftText = _leftItems[l.LeftIndex].LeftItem;
+                var rightText = _rightItems[l.RightIndex].RightItem;
+ 
+                return _correctLinks.Any(cl => cl.LeftItem == leftText && cl.RightItem == rightText);
+            });
+
         }
     }
 }

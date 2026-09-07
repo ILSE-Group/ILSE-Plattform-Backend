@@ -46,9 +46,16 @@ namespace Domain.DomainObjects.Topics.Exercises
             return new ClickableImageExercise(id, title, description, experiencePoints, imageUrl, clickableAreas);
         }
 
-        public override Exercise ValidateAnswer(object answer)
+        public override bool ValidateAnswer(object answer)
         {
-            throw new NotImplementedException();
+            if (answer is not ValueTuple<int, int> point) throw new ArgumentException("Expected a (int X, int Y) tuple for clickable image answer.", nameof(answer));
+ 
+            var x = point.Item1;
+            var y = point.Item2;
+ 
+            return _clickableAreas.Any(area =>
+                x >= area.X && x <= area.X + area.Width &&
+                y >= area.Y && y <= area.Y + area.Height);
         }
 
     }

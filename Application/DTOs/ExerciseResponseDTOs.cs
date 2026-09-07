@@ -3,7 +3,7 @@
     public record ExerciseResponse(Guid Id, string Title, string Description, int ExperiencePoints, string Type);
 
     public record MultipleChoiceResponse(Guid Id, string Title, string Description, int ExperiencePoints, List<string> Options)
-        : ExerciseResponse(Id, Title, Description, ExperiencePoints, "MultipleChoice");
+        : ExerciseResponse(Id, Title, Description, ExperiencePoints, "MultipleChoiceMultiAnswer");
 
     public record DragAndDropResponse(Guid Id, string Title, string Description, int ExperiencePoints, List<string> Items, List<string> Zones)
         : ExerciseResponse(Id, Title, Description, ExperiencePoints, "DragAndDrop");

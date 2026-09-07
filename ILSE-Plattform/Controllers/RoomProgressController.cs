@@ -15,6 +15,13 @@ namespace ILSE_Plattform.Controllers
             _roomProgressService = roomProgressService;
         }
 
+        [HttpPost("{userId}")]
+        public async Task<ActionResult<RoomProgressResponse>> Start(Guid roomId, Guid userId)
+        {
+            var progress = await _roomProgressService.StartAsync(roomId, userId);
+            return Ok(progress);
+        }
+
         [HttpGet("{userId}")]
         public async Task<ActionResult<RoomProgressResponse>> GetByRoomAndUser(Guid roomId, Guid userId)
         {
